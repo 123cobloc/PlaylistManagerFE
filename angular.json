@@ -107,5 +107,7 @@
       }
     }
   },
-  "defaultProject": "PlaylistManager"
+  "cli": {
+    "analytics": false
+  }
 }
