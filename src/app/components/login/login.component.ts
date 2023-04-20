@@ -14,10 +14,9 @@ export class LoginComponent {
   }
 
   toSpotifyLogin(): void {
-    // this.authService.getLoginUrl().subscribe(login => {
-    //   localStorage.setItem('state', login.state);
-    //   window.location.href = login.url;
-    // });
-    this.authService.test().subscribe(obj => console.log(obj));
+    this.authService.getLoginUrl().subscribe(login => {
+      localStorage.setItem('state', login.state);
+      window.location.href = login.url;
+    });
   }
 }

@@ -53,8 +53,4 @@ export class AuthService {
     }
     this.codeVerifier = str;
   }
-
-  test(): Observable<object> {
-    return this.http.get<object>('https://playlistmanagerapi.azurewebsites.net/api/User/test');
-  }
 }

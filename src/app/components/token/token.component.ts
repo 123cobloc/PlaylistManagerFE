@@ -22,15 +22,14 @@ export class TokenComponent {
       this.state = params['state'];
     }));
     if (this.state === localStorage.getItem('state')) {
-      // this.subscriptions.push(this.authService.getToken(this.code).subscribe(token => {
-      //   localStorage.removeItem('state');
-      //   this.authService.accessToken = token.accessToken;
-      //   this.authService.refreshToken = token.refreshToken;
-      //   this.authService.expires = token.expires;
-      // }));
-      this.subscriptions.push(this.authService.test().subscribe(obj => console.log(obj)));
+      this.subscriptions.push(this.authService.getToken(this.code).subscribe(token => {
+        localStorage.removeItem('state');
+        this.authService.accessToken = token.accessToken;
+        this.authService.refreshToken = token.refreshToken;
+        this.authService.expires = token.expires;
+      }));
     }
-    //this.router.navigate(['/']);
+    this.router.navigate(['/']);
   }
 
   ngOnDestroy(): void {
