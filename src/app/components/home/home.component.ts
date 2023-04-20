@@ -12,8 +12,8 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class HomeComponent {
 
-  user: User = {} as User;
-  track: Track = {} as Track;
+  user: User | null = null;
+  track: Track | null = null;
   get artists(): string { return this.track ? this.track.artists.map(artist => artist.name).join(', ') : ""; }
   private subscriptions: Array<Subscription> = [];
 
