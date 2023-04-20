@@ -20,6 +20,8 @@ export class TokenComponent {
     this.subscriptions.push(this.route.queryParams.subscribe(params => {
       this.code = params['code'];
       this.state = params['state'];
+      console.log(this.state);
+      console.log(localStorage.getItem('state'));
     }));
     if (this.state === localStorage.getItem('state')) {
       this.subscriptions.push(this.authService.getToken(this.code).subscribe(token => {
@@ -29,7 +31,7 @@ export class TokenComponent {
         this.authService.expires = token.expires;
       }));
     }
-    this.router.navigate(['/']);
+    //this.router.navigate(['/']);
   }
 
   ngOnDestroy(): void {
