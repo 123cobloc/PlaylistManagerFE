@@ -27,9 +27,11 @@ export class TokenComponent {
         this.authService.accessToken = token.accessToken;
         this.authService.refreshToken = token.refreshToken;
         this.authService.expires = token.expires;
+        this.router.navigate(['/']);
       }));
+    } else {
+      this.router.navigate(['/']);
     }
-    this.router.navigate(['/']);
   }
 
   ngOnDestroy(): void {

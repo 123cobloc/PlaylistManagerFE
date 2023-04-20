@@ -24,6 +24,10 @@ export class AuthService {
     return !!this.accessToken;
   }
 
+  hasState(): boolean {
+    return !!localStorage.getItem('state');
+  }
+
   getLoginUrl(): Observable<Login> {
     this.generateCodeVerifier();
     return this.http.get<Login>(`https://playlistmanagerapi.azurewebsites.net/api/User/loginUrl?codeVerifier=${this.codeVerifier}`);
@@ -43,6 +47,7 @@ export class AuthService {
     this.accessToken = null;
     this.refreshToken = null;
     this.expires = null;
+    
   }
 
   private generateCodeVerifier() {

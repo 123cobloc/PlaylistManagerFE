@@ -4,11 +4,13 @@ import { AuthGuard } from './guards/auth.guard';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { TokenComponent } from './components/token/token.component';
+import { TokenGuard } from './guards/token.guard';
+import { LoginGuard } from './guards/login.guard';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
-  { path: 'login', component: LoginComponent },
-  { path: 'callback', component: TokenComponent }
+  { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
+  { path: 'callback', component: TokenComponent, canActivate: [TokenGuard] }
 ];
 
 @NgModule({
