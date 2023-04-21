@@ -1,4 +1,4 @@
-import { PlatformLocation } from '@angular/common';
+import { Platform } from '@angular/cdk/platform';
 import { Component } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -11,10 +11,10 @@ export class LoginComponent {
 
   isSupported: boolean = false; 
 
-  constructor(private authService: AuthService, private platformLocation: PlatformLocation) { }
+  constructor(private authService: AuthService, private platform: Platform) { }
 
   ngOnInit(): void {
-    if (this.platformLocation.toString().match(/Android|iPhone/i)) this.isSupported = true;
+    this.isSupported = this.platform.ANDROID || this.platform.IOS;
   }
 
   toSpotifyLogin(): void {
