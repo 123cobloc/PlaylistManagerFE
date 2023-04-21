@@ -14,7 +14,7 @@ export class LoginComponent {
   constructor(private authService: AuthService, private platform: Platform) { }
 
   ngOnInit(): void {
-    this.isSupported = this.platform.ANDROID || this.platform.IOS;
+    this.isSupported = true; //this.platform.ANDROID || this.platform.IOS;
   }
 
   toSpotifyLogin(): void {
