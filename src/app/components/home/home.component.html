@@ -1,3 +1,11 @@
-<p>{{user!.username}}</p>
-<p>{{track ? track.title : "boh fra nessuna"}}</p>
-<p>{{artists}}</p>
+<div id="loading" *ngIf="!isLoaded">
+    <p>Loading...</p>
+</div>
+<div id="loaded" *ngIf="isLoaded">
+    <p>{{user!.username}}</p>
+    <div id="current-track" class="text-center" *ngIf="track">
+        <img class="rounded-3" height="300" width="300" src={{track.album.image}} alt="Cover">
+        <p>{{track ? track.title : "boh fra nessuna"}}</p>
+        <p>{{artists}}</p>
+    </div>
+</div>

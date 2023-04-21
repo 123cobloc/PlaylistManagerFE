@@ -14,6 +14,7 @@ export class HomeComponent {
 
   user: User | null = null;
   track: Track | null = null;
+  isLoaded: boolean = false;
   get artists(): string { return this.track ? this.track.artists.map(artist => artist.name).join(', ') : ""; }
   private subscriptions: Array<Subscription> = [];
 
@@ -21,7 +22,10 @@ export class HomeComponent {
 
   ngOnInit(): void {
     this.subscriptions.push(this.userService.getMe().subscribe(user => this.user = user));
-    this.subscriptions.push(this.playerService.getCurrentTrack().subscribe(track => this.track = track));
+    this.subscriptions.push(this.playerService.getCurrentTrack().subscribe(track => {
+      this.track = track;
+      this.isLoaded = true;
+    }));
   }
 
   ngOnDestroy(): void {

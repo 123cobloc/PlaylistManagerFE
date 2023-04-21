@@ -8,13 +8,15 @@ import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { TokenComponent } from './components/token/token.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { CurrentTrackComponent } from './components/current-track/current-track.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     HomeComponent,
-    TokenComponent
+    TokenComponent,
+    CurrentTrackComponent
   ],
   imports: [
     BrowserModule,

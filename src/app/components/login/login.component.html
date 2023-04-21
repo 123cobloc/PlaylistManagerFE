@@ -1,1 +1,2 @@
-<button type="button" class="btn btn-success" (click)="toSpotifyLogin()">Login with Spotify</button>
+<button type="button" class="btn btn-success" (click)="toSpotifyLogin()" *ngIf="isSupported">Login with Spotify</button>
+<button type="button" class="btn btn-danger" *ngIf="!isSupported">Logout</button>
