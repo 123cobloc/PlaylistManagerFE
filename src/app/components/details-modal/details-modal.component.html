@@ -1,0 +1,10 @@
+<div class="left-fade"></div>
+<div id="track-details" class="mx-auto track-details">
+    <h4 (click)="open(track);"><b>{{track ? track.name : "Nessuna canzone rilevata"}}</b></h4>
+    <h5 *ngIf="!track?.artists">Metti un po' di musica su Spotify</h5>
+    <h5 *ngIf="track?.artists">
+        <a *ngFor="let artist of track?.artists; last as isLast" (click)="open(artist)">{{artist?.name}}{{!isLast ? ", " : ""}}</a>
+    </h5>
+    <h6 (click)="open(track?.album)">{{track?.album?.name}}</h6>
+</div>
+<div class="right-fade"></div>

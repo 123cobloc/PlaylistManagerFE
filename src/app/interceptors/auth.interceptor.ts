@@ -6,7 +6,7 @@ import {
   HttpInterceptor,
   HttpErrorResponse
 } from '@angular/common/http';
-import { Observable, switchMap, tap } from 'rxjs';
+import { Observable, retry, switchMap, tap } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { Token } from '../models/token.model';
 
@@ -17,7 +17,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (request.url.startsWith('https://playlistmanagerapi.azurewebsites.net/api/User/token') || request.url.startsWith('https://playlistmanagerapi.azurewebsites.net/api/User/loginUrl') || request.url.startsWith('https://playlistmanagerapi.azurewebsites.net/api/User/refreshToken')) {
-      return next.handle(request);
+      return next.handle(request).pipe(retry(3));
     }
     let token = this.auth.accessToken;
     let refreshToken = this.auth.refreshToken;
@@ -25,7 +25,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
     if (token && expires! > Date.now()) {
       const authReq: HttpRequest<any> = this.addToken(request);
-      return next.handle(authReq).pipe(tap({ error: (err: HttpErrorResponse) => this.manageError(err) }));;
+      return next.handle(authReq).pipe(retry(3)).pipe(tap({ error: (err: HttpErrorResponse) => this.auth.logout() }));;
     } else if (refreshToken) {
       return this.refreshToken(request, next);
     } else {

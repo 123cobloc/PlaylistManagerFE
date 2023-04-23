@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Login } from '../models/login.model';
 import { Token } from '../models/token.model';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class AuthService {
   get expires(): number | null { let tmp = localStorage.getItem('expires'); return tmp ? parseInt(tmp) : null; }
   set expires(expires: number | null) { expires ? localStorage.setItem('expires', expires.toString()) : localStorage.removeItem('expires'); }
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   isLoggedIn(): boolean {
     return !!this.accessToken;
@@ -47,7 +48,7 @@ export class AuthService {
     this.accessToken = null;
     this.refreshToken = null;
     this.expires = null;
-    
+    this.router.navigate(['/login']);
   }
 
   private generateCodeVerifier() {

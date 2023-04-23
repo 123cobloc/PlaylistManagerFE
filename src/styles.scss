@@ -9,11 +9,103 @@ body {
 }
 
 div.no-track {
-    margin: auto;
     background-color: #333333;
     height: 300px;
     width: 300px;
+}
+
+div.in-queue {
+    background-color: #000000;
+    border: 1px solid #b3b3b3;
+    width: 40px;
+    height: 40px;
+    top: 0%;
+    left: 100%;
+    margin-top: 28px;
+    margin-left: -36px;
+}
+
+div.track-details {
+    width: 90%;
+    z-index: 1;
+}
+
+div.right-fade {
+    width: 5%;
+    height: 100px;
+    background-image: linear-gradient(to right, rgba(18,18,18,0), rgba(18,18,18,1));
+    z-index: 2;
+}
+
+div.left-fade {
+    width: 5%;
+    height: 100px;
+    background-image: linear-gradient(to left, rgba(18,18,18,0), rgba(18,18,18,1));
+    z-index: 2;
+}
+
+div.my-header {
+    text-align: center;
+}
+
+.modal-dialog {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow-y: auto;
+    min-height: calc(100vh - 60px);
+  }
+  @media (max-width: 767px) {
+    .modal-dialog {
+      min-height: calc(100vh - 100px);
+    }
+  }
+  
+div.my-half {
+    width: 50%;
+    height: 80px;
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
+}
+
+span.vr {
+    margin-top: 10px;
+    width: 2px;
+    height: 60px;
+}
+
+div.modal-body {
+    background-color: #121212;
+    color: #ffffff;
+}
+
+button.my-btn {
+    background-color: #ffffff;
+    color: #000000;
+    border: 1px solid #121212;
+    width: 40%;
+    transition-duration: 0.25s;
+}
+
+button.my-btn:hover {
+    background-color: #121212;
+    color: #ffffff;
+    border: 1px solid #ffffff;
+}
+
+.marquee {
+    white-space: nowrap;
+    display: block;
+    text-overflow: ellipsis;
+    animation: marquee 12.323456790123456790123456790123s linear infinite;
+    animation-delay: -4.9293827160493827160493827160492s;
+}
+
+@keyframes marquee {
+    0%   { transform: translate(123.23456790123456790123456790123%, 0); }
+    40%  { transform: translate(0%, 0); }
+    60%  { transform: translate(0%, 0); }
+    100% { transform: translate(-123.23456790123456790123456790123%, 0); }
 }

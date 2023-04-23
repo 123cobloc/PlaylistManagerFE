@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { Playlist } from 'src/app/models/playlist.model';
 import { Track } from 'src/app/models/track.model';
 import { User } from 'src/app/models/user.model';
 import { PlayerService } from 'src/app/services/player.service';
+import { PlaylistService } from 'src/app/services/playlist.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -12,24 +14,42 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class HomeComponent {
 
-  user: User | null = null;
-  track: Track | null = null;
-  isLoaded: boolean = false;
-  get artists(): string { return this.track ? this.track.artists.map(artist => artist.name).join(', ') : ""; }
+  playlist: Playlist | undefined;
+  private get playlistId(): string | null {
+    return localStorage.getItem("playlistId");
+  }
+  queue: Playlist | undefined;
+  user: User | undefined;
+  track: Track | undefined;
+  loading: number = 0;
   private subscriptions: Array<Subscription> = [];
 
-  constructor(private userService: UserService, private playerService: PlayerService) { }
+  constructor(private userService: UserService, private playerService: PlayerService, private playlistService: PlaylistService) { }
 
   ngOnInit(): void {
-    this.subscriptions.push(this.userService.getMe().subscribe(user => this.user = user));
-    this.subscriptions.push(this.playerService.getCurrentTrack().subscribe(track => {
-      this.track = track;
-      this.isLoaded = true;
+    this.subscriptions.push(this.userService.getMe().subscribe({
+      next: user => this.user = user,
+      complete: () => this.loading++
     }));
+    this.subscriptions.push(this.playerService.getCurrentTrack().subscribe({
+      next: track => this.track = track,
+      complete: () => this.loading++
+    }));
+    this.subscriptions.push(this.playlistService.getQueue().subscribe({
+      next: queue => this.queue = queue,
+      complete: () => this.loading++
+    }));
+    if (this.playlistId) {
+      this.subscriptions.push(this.playlistService.getPlaylist(this.playlistId).subscribe({
+        next: playlist => this.playlist = playlist,
+        complete: () => this.loading++
+      }));
+    } else {
+      this.loading++;
+    }
   }
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
-
 }

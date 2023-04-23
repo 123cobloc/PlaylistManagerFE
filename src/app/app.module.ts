@@ -10,6 +10,9 @@ import { HomeComponent } from './components/home/home.component';
 import { TokenComponent } from './components/token/token.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { CurrentTrackComponent } from './components/current-track/current-track.component';
+import { DetailsModalComponent } from './components/details-modal/details-modal.component';
+import { NgbModalModule, NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
+import { FirstAccessComponent } from './components/first-access/first-access.component';
 
 @NgModule({
   declarations: [
@@ -17,13 +20,17 @@ import { CurrentTrackComponent } from './components/current-track/current-track.
     LoginComponent,
     HomeComponent,
     TokenComponent,
-    CurrentTrackComponent
+    CurrentTrackComponent,
+    DetailsModalComponent,
+    FirstAccessComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    PlatformModule
+    PlatformModule,
+    NgbModalModule,
+    NgbToastModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}

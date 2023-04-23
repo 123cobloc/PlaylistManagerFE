@@ -4,7 +4,7 @@ import { Artist } from "./artist.model";
 export interface Track {
     url: string;
     id: string;
-    title: string;
+    name: string;
     artists: Array<Artist>;
     album: Album;
     timestamp: number | null;
