@@ -9,6 +9,10 @@ import { Playlist } from 'src/app/models/playlist.model';
 export class FirstAccessComponent {
 
   @Input() myPlaylists: Array<Playlist> | undefined;
-  selectedId: string | undefined;
+
+  setPlaylist(playlistId: string) {
+    if (!playlistId) return;
+    localStorage.setItem('playlistId', playlistId);
+  }
 
 }

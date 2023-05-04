@@ -6,10 +6,11 @@
 </div>
 <div id="selectPlaylist">
     <h6 class="m-3 my-header">Seleziona la playlist a cui vuoi aggiungere le canzoni, potrai cambiarla in qualsiasi momento dalle impostazioni</h6>
-    <select title="selectPlaylist" [(ngModel)]="selectedId">
-        <option *ngFor="let playlist of myPlaylists; let i = index" [value]="playlist.id" [selected]="i == 0">
+    <select #selectPlaylist title="selectPlaylist">
+        <option value="" selected hidden> Seleziona una playlist</option>
+        <option *ngFor="let playlist of myPlaylists; let i = index" [value]="playlist.id">
             {{playlist.name}}
-            </option>
+        </option>
     </select>
-    <button class="btn my-btn rounded-pill m-auto">Seleziona<br><b>Playlist</b></button>
+    <button class="btn my-btn rounded-pill m-auto" (click)="setPlaylist(selectPlaylist.value)">Seleziona<br><b>Playlist</b></button>
 </div>
