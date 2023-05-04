@@ -14,6 +14,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class HomeComponent {
 
+  myPlaylists: Array<Playlist> | undefined;
   playlist: Playlist | undefined;
   private get playlistId(): string | null {
     return localStorage.getItem("playlistId");
@@ -45,7 +46,10 @@ export class HomeComponent {
         complete: () => this.loading++
       }));
     } else {
-      this.loading++;
+      this.subscriptions.push(this.playlistService.getMyPlaylists().subscribe({
+        next: myPlaylists => this.myPlaylists = myPlaylists,
+        complete: () => this.loading++
+      }));
     }
   }
 

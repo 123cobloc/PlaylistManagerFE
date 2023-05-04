@@ -1,1 +1,15 @@
-<p>first-access works!</p>
+<h2 class="mt-4 m-3 my-header">Benvenutə</h2>
+<h5 class="m-3 my-header">Prima di iniziare è necessaria una breve configurazione</h5>
+<div id="createQueue" >
+    <h6 class="m-3 my-header">Premendo il bottone qui sotto verrà creata sul tuo profilo una playlist nascosta chiamata "Queue - PM" in cui verranno salvate le canzoni che vuoi riascoltare</h6>
+    <button class="btn my-btn rounded-pill m-auto">Crea<br><b>Queue - PM</b></button>
+</div>
+<div id="selectPlaylist">
+    <h6 class="m-3 my-header">Seleziona la playlist a cui vuoi aggiungere le canzoni, potrai cambiarla in qualsiasi momento dalle impostazioni</h6>
+    <select [(ngModel)]="selectedId">
+        <option *ngFor="let playlist of myPlaylists; let i = index" [value]="playlist.id" [selected]="i == 0">
+            {{playlist.name}}
+            </option>
+    </select>
+    <button class="btn my-btn rounded-pill m-auto">Seleziona<br><b>Playlist</b></button>
+</div>

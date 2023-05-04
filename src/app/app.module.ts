@@ -13,6 +13,7 @@ import { CurrentTrackComponent } from './components/current-track/current-track.
 import { DetailsModalComponent } from './components/details-modal/details-modal.component';
 import { NgbModalModule, NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 import { FirstAccessComponent } from './components/first-access/first-access.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { FirstAccessComponent } from './components/first-access/first-access.com
     HttpClientModule,
     PlatformModule,
     NgbModalModule,
-    NgbToastModule
+    NgbToastModule,
+    FormsModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}

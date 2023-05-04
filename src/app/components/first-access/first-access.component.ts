@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Playlist } from 'src/app/models/playlist.model';
 
 @Component({
   selector: 'app-first-access',
@@ -6,5 +7,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./first-access.component.scss']
 })
 export class FirstAccessComponent {
+
+  @Input() myPlaylists: Array<Playlist> | undefined;
+  selectedId: string | undefined;
 
 }

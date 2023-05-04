@@ -17,4 +17,8 @@ export class PlaylistService {
   getQueue(): Observable<Playlist> {
     return this.getPlaylist(undefined);
   }
+
+  getMyPlaylists(): Observable<Array<Playlist>> {
+    return this.http.get<Array<Playlist>>("https://playlistmanagerapi.azurewebsites.net/api/Playlist/all");
+  }
 }

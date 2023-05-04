@@ -3,5 +3,5 @@
 </div>
 <div id="loaded" *ngIf="loading == 4">
     <app-current-track [track]="track" [queue]="queue" [playlist]="playlist" *ngIf="playlist && queue"></app-current-track>
-    <app-first-access *ngIf="!playlist || !queue"></app-first-access>
+    <app-first-access *ngIf="!playlist || !queue" [myPlaylists]="myPlaylists"></app-first-access>
 </div>
