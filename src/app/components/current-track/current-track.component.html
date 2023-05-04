@@ -12,7 +12,41 @@
             </svg>
         </div>
     </div>
-    <app-details-modal [track]="track" class="d-flex mt-3"></app-details-modal>
+    <div class="d-flex">
+        <div class="left-fade"></div>
+            <div id="track-details" class="mx-auto track-details">
+                <h4 (click)="open(track)" data-bs-toggle="modal" data-bs-target="#exampleModal"><b>{{track ? track.name : "Nessuna canzone rilevata"}}</b></h4>
+                <h5 *ngIf="!track?.artists">Metti un po' di musica su Spotify</h5>
+                <h5 *ngIf="track?.artists"><a *ngFor="let artist of track?.artists; last as isLast" (click)="open(artist)" data-bs-toggle="modal" data-bs-target="#exampleModal">{{artist?.name}}{{!isLast ? ", " : ""}}</a></h5>
+                <h6 (click)="open(track?.album)" data-bs-toggle="modal" data-bs-target="#exampleModal">{{track?.album?.name}}</h6>
+            </div>
+        <div class="right-fade"></div>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-body rounded">
+                    <div class="my-header">
+                      <h5>{{item?.name}}</h5>
+                      <p style="color: #5e5e5e;">{{ itemType === 0 ? "Album" : itemType === 1 ? "Artista" : "Canzone"}}</p>
+                    </div>
+                    <div class="d-flex">
+                      <div class="my-half" data-bs-dismiss="modal" (click)="openSpotify()">
+                        Apri con
+                        <br>
+                        Spotify
+                      </div>
+                      <span class="vr"></span>
+                      <div class="my-half" data-bs-dismiss="modal" (click)="addToWatchlist()">
+                        Aggiungi alla
+                        <br>
+                        Watchlist
+                      </div>
+                    </div>
+                      </div>
+              </div>
+            </div>
+        </div>
+    </div>
     <div id="buttons" class="d-flex justify-content-evenly mt-3" *ngIf="track && isDevMode">
         <button class="btn rounded-pill my-btn">Aggiungi a<br><b>{{queue?.name}}</b></button>
         <button class="btn rounded-pill my-btn">Aggiungi a<br><b>{{playlist?.name}}</b></button>
