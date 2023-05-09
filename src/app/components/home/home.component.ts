@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Subscription, interval } from 'rxjs';
 import { Playlist } from 'src/app/models/playlist.model';
 import { Track } from 'src/app/models/track.model';
@@ -60,7 +60,7 @@ export class HomeComponent {
       this.user = user;
       this.track = track;
       this.queue = queue;
-      if (queue?.id != playlist?.id)this.playlist = playlist;
+      if (queue?.id != playlist?.id) this.playlist = playlist;
       this.loading = false;
     });
 
@@ -71,6 +71,11 @@ export class HomeComponent {
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+
+  lockOrientation(): void {
+    document.documentElement.requestFullscreen();
+    screen.orientation.lock('portrait-primary');
   }
 
 }

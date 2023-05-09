@@ -25,9 +25,4 @@ export class LoginComponent {
       window.location.href = login.url;
     });
   }
-
-  lockOrientation(): void {
-    document.documentElement.requestFullscreen().then(success => this.console += `${success}\n`, failure => this.console += `${failure}\n`);
-    screen.orientation.lock('portrait').then(success => this.console += `${success}\n`, failure => this.console += `${failure}\n`)
-  }
 }
