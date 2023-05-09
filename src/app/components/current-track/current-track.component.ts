@@ -22,7 +22,15 @@ export class CurrentTrackComponent {
   @Input() queue: Playlist | undefined;
   @Input() playlist: Playlist | undefined;
   @ViewChild("myToast") toastEl: ElementRef | undefined;
+  @ViewChild("checkModal") modalEl: ElementRef | undefined;
+  get playlistToCheck(): Playlist | undefined {
+    if (this.checkQueue) return this.queue;
+    else return this.playlist;
+  }
+  checkQueue: boolean = false;
+  perfectMatch: boolean = true;
   myToast: bootstrap.Toast | undefined;
+  checkModal: bootstrap.Modal | undefined;
   toastMessage: string = "";
   subscriptions: Array<Subscription> = [];
   item: Album | Artist | Track | undefined;
@@ -40,8 +48,9 @@ export class CurrentTrackComponent {
     }
   };
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.myToast = new bootstrap.Toast(this.toastEl?.nativeElement);
+    this.checkModal = new bootstrap.Modal(this.modalEl?.nativeElement);
   }
 
   open(item: Album | Artist | Track | undefined) {
@@ -55,8 +64,7 @@ export class CurrentTrackComponent {
   }
 
   showToast(): void {
-    let toast = new bootstrap.Toast(this.toastEl?.nativeElement);
-    if (!toast.isShown()) toast.show();
+    if (!this.myToast!.isShown()) this.myToast!.show();
   }
 
   addToWatchlist(): void {
@@ -73,43 +81,53 @@ export class CurrentTrackComponent {
     }));
   }
 
-  addToPlaylist(): void {
-    if (!this.track || !this.playlist || !this.queue) {
-      this.toastMessage = `Error adding to ${this.playlist?.name ?? "playlist"}`;
+  addToPlaylist(isQueue: boolean): void {
+    this.checkQueue = isQueue;
+    if (!this.track || !this.queue || !this.playlistToCheck) {
+      this.toastMessage = `Error adding to ${this.playlistToCheck?.name ?? "playlist"}`;
       this.showToast();
       return;
     }
-    this.subscriptions.push(this.playlistService.addToPlaylist(this.track.id, this.playlist.id).subscribe({
-      next: () => {
-        this.toastMessage = `Added to ${this.playlist!.name}`;
-        this.showToast();
+    this.subscriptions.push(this.playlistService.checkIfInPlaylist(this.track.id, this.playlistToCheck.id).subscribe({
+      next: (res) => {
+        switch (res) {
+          case 0:
+            this.finalizeAdd();
+            break;
+          case 1:
+            this.perfectMatch = false;
+            this.checkModal?.show();
+            break;
+          case 2:
+            this.perfectMatch = true;
+            this.checkModal?.show();
+            break;
+        }
       },
       error: () => {
-        this.toastMessage = `Error adding to ${this.playlist!.name}`;
+        this.toastMessage = `Error adding to ${this.playlistToCheck?.name ?? "playlist"}`;
         this.showToast();
+        return;
       }
-    }));
-    this.subscriptions.push(this.playlistService.removeFromPlaylist(this.track.id, this.queue.id).subscribe({
-      next: () => this.track!.isFromQueue = false
     }));
   }
 
-  addToQueue(): void {
-    if (!this.track || !this.queue) {
-      this.toastMessage = `Error adding to Queue - PM`;
-      this.showToast();
-      return;
-    }
-    this.subscriptions.push(this.playlistService.addToPlaylist(this.track.id, this.queue.id).subscribe({
+  finalizeAdd(): void {
+    if (!this.track || !this.queue || !this.playlistToCheck) return;
+    this.subscriptions.push(this.playlistService.addToPlaylist(this.track.id, this.playlistToCheck.id).subscribe({
       next: () => {
-        this.track!.isFromQueue = true;
-        this.toastMessage = `Added to Queue - PM`;
+        this.toastMessage = `Added to ${this.playlistToCheck!.name}`;
         this.showToast();
+        if (this.queue!.id === this.playlistToCheck!.id) this.track!.isFromQueue = true;
       },
       error: () => {
-        this.toastMessage = `Error adding to Queue - PM`;
+        this.toastMessage = `Error adding to ${this.playlistToCheck!.name}`;
         this.showToast();
       }
+    }));
+    if (this.queue.id === this.playlistToCheck!.id) return;
+    this.subscriptions.push(this.playlistService.removeFromPlaylist(this.track.id, this.queue.id).subscribe({
+      next: () => this.track!.isFromQueue = false
     }));
   }
 

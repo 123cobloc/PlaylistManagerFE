@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, isDevMode } from '@angular/core';
 import { Subscription, interval } from 'rxjs';
 import { Playlist } from 'src/app/models/playlist.model';
 import { Track } from 'src/app/models/track.model';
@@ -74,6 +74,7 @@ export class HomeComponent {
   }
 
   lockOrientation(): void {
+    if (isDevMode()) return;
     document.documentElement.requestFullscreen();
     screen.orientation.lock('portrait-primary');
   }

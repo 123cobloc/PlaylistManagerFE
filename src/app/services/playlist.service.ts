@@ -33,4 +33,8 @@ export class PlaylistService {
   removeFromPlaylist(trackId: string, playlistId?: string): Observable<void> {
     return this.http.delete<void>(`https://playlistmanagerapi.azurewebsites.net/api/Playlist/${playlistId ? playlistId : "pmqueue"}/remove/${trackId}`);
   }
+
+  checkIfInPlaylist(trackId: string, playlistId?: string): Observable<number> {
+    return this.http.get<number>(`https://playlistmanagerapi.azurewebsites.net/api/Playlist/${playlistId ? playlistId : "pmqueue"}/contains/${trackId}`);
+  }
 }
