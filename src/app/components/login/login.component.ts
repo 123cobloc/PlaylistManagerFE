@@ -9,13 +9,15 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class LoginComponent {
 
-  isSupported: boolean = false; 
+  isSupported: boolean = false;
+  console: string = '';
 
   constructor(private authService: AuthService, private platform: Platform) { }
 
   ngOnInit(): void {
     console.log(this.platform.ANDROID, this.platform.IOS)
     this.isSupported = this.platform.ANDROID || this.platform.IOS;
+    screen.orientation.lock('portrait').then(success => this.console += `${success}\n`, failure => this.console += `${failure}\n`)
   }
 
   toSpotifyLogin(): void {
