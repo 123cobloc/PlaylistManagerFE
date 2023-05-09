@@ -16,7 +16,6 @@ export class LoginComponent {
   ngOnInit(): void {
     console.log(this.platform.ANDROID, this.platform.IOS)
     this.isSupported = this.platform.ANDROID || this.platform.IOS;
-    screen.orientation.lock('portrait');
   }
 
   toSpotifyLogin(): void {
