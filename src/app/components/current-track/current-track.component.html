@@ -14,12 +14,15 @@
     </div>
     <div class="d-flex">
         <div class="left-fade"></div>
-            <div id="track-details" class="mx-auto track-details">
-                <h4 (click)="open(track)" data-bs-toggle="modal" data-bs-target="#exampleModal"><b>{{track ? track.name : "Nessuna canzone rilevata"}}</b></h4>
-                <h5 *ngIf="!track?.artists">Metti un po' di musica su Spotify</h5>
-                <h5 *ngIf="track?.artists"><a *ngFor="let artist of track?.artists; last as isLast" (click)="open(artist)" data-bs-toggle="modal" data-bs-target="#exampleModal">{{artist?.name}}{{!isLast ? ", " : ""}}</a></h5>
-                <h6 (click)="open(track?.album)" data-bs-toggle="modal" data-bs-target="#exampleModal">{{track?.album?.name}}</h6>
+            <div id="track-details" class="mx-auto track-details" *ngIf="track">
+                <h4 (click)="open(track)" data-bs-toggle="modal" data-bs-target="#exampleModal"><b>{{track.name}}</b></h4>
+                <h5><a *ngFor="let artist of track.artists; last as isLast" (click)="open(artist)" data-bs-toggle="modal" data-bs-target="#exampleModal">{{artist?.name}}{{!isLast ? ", " : ""}}</a></h5>
+                <h6 (click)="open(track.album)" data-bs-toggle="modal" data-bs-target="#exampleModal">{{track.album.name}}</h6>
             </div>
+            <div id="track-details" class="mx-auto track-details" *ngIf="!track">
+              <h4><b>Nessuna canzone rilevata</b></h4>
+              <h5>Metti un po' di musica su Spotify</h5>
+          </div>
         <div class="right-fade"></div>
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -27,7 +30,7 @@
                 <div class="modal-body rounded">
                     <div class="my-header">
                       <h5>{{item?.name}}</h5>
-                      <p style="color: #5e5e5e;">{{ itemType === 0 ? "Album" : itemType === 1 ? "Artista" : "Canzone"}}</p>
+                      <p>{{ itemType === 0 ? "Album" : itemType === 1 ? "Artista" : "Canzone"}}</p>
                     </div>
                     <div class="d-flex">
                       <div class="my-half" data-bs-dismiss="modal" (click)="openSpotify()">
@@ -47,8 +50,16 @@
             </div>
         </div>
     </div>
-    <div id="buttons" class="d-flex justify-content-evenly mt-3" *ngIf="track && isDevMode">
-        <button class="btn rounded-pill my-btn">Aggiungi a<br><b>{{queue?.name}}</b></button>
-        <button class="btn rounded-pill my-btn">Aggiungi a<br><b>{{playlist?.name}}</b></button>
+    <div id="buttons" class="d-flex justify-content-evenly mt-3" *ngIf="track">
+        <button class="btn rounded-pill my-btn" *ngIf="track?.isFromQueue" (click)="removeFromQueue()">Rimuovi da<br><b>{{queue?.name}}</b></button>
+        <button class="btn rounded-pill my-btn" *ngIf="!track?.isFromQueue"(click)="addToQueue()">Aggiungi a<br><b>{{queue?.name}}</b></button>
+        <button class="btn rounded-pill my-btn" (click)="addToPlaylist()">Aggiungi a<br><b>{{playlist?.name}}</b></button>
+    </div>
+    <div class="d-flex justify-content-center position-fixed mb-4 bottom-0 my-footer">
+      <div #myToast class="toast rounded-pill hide" role="alert" aria-live="assertive" aria-atomic="true" data-bs-animation="true" data-bs-autohide="true" data-bs-delay="2000">
+        <div class="toast-body rounded-pill my-toast">
+          {{toastMessage}}
+        </div>
+      </div>
     </div>
 </div>

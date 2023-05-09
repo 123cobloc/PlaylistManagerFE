@@ -21,4 +21,16 @@ export class PlaylistService {
   getMyPlaylists(): Observable<Array<Playlist>> {
     return this.http.get<Array<Playlist>>("https://playlistmanagerapi.azurewebsites.net/api/Playlist/all");
   }
+
+  createQueue():  Observable<void> {
+    return this.http.post<void>("https://playlistmanagerapi.azurewebsites.net/api/Playlist/CreateQueue", {});
+  }
+
+  addToPlaylist(trackId: string, playlistId?: string): Observable<void> {
+    return this.http.post<void>(`https://playlistmanagerapi.azurewebsites.net/api/Playlist/${playlistId ? playlistId : "pmqueue"}/add/${trackId}`, {});
+  }
+
+  removeFromPlaylist(trackId: string, playlistId?: string): Observable<void> {
+    return this.http.delete<void>(`https://playlistmanagerapi.azurewebsites.net/api/Playlist/${playlistId ? playlistId : "pmqueue"}/remove/${trackId}`);
+  }
 }

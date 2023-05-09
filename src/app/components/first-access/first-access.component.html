@@ -1,16 +1,23 @@
+<br>
 <h2 class="mt-4 m-3 my-header">Benvenutə</h2>
+<br>
 <h5 class="m-3 my-header">Prima di iniziare è necessaria una breve configurazione</h5>
-<div id="createQueue" >
-    <h6 class="m-3 my-header">Premendo il bottone qui sotto verrà creata sul tuo profilo una playlist nascosta chiamata "Queue - PM" in cui verranno salvate le canzoni che vuoi riascoltare</h6>
-    <button class="btn my-btn rounded-pill m-auto">Crea<br><b>Queue - PM</b></button>
+<br>
+<div id="createQueue" class="my-header" *ngIf="!queueExists">
+    <h6 class="m-3">Premendo il bottone qui sotto verrà creata sul tuo profilo una playlist nascosta chiamata "Queue - PM" in cui verranno salvate le canzoni che vuoi riascoltare</h6>
+    <button class="btn my-btn rounded-pill m-auto" [disabled]="createQueueButton" (click)="createQueue()">Crea<br><b>Queue - PM</b></button>
+    <br>
+    <br>
 </div>
-<div id="selectPlaylist">
+<div id="selectPlaylist" class="my-header" *ngIf="!playlistExists">
     <h6 class="m-3 my-header">Seleziona la playlist a cui vuoi aggiungere le canzoni, potrai cambiarla in qualsiasi momento dalle impostazioni</h6>
-    <select #selectPlaylist title="selectPlaylist">
+    <select #selectPlaylist title="selectPlaylist" class="my-select" (change)="checkPlaylist(selectPlaylist.value)">
         <option value="" selected hidden> Seleziona una playlist</option>
         <option *ngFor="let playlist of myPlaylists; let i = index" [value]="playlist.id">
             {{playlist.name}}
         </option>
     </select>
-    <button class="btn my-btn rounded-pill m-auto" (click)="setPlaylist(selectPlaylist.value)">Seleziona<br><b>Playlist</b></button>
+    <br>
+    <br>
+    <button class="btn my-btn rounded-pill m-auto" (click)="setPlaylist(selectPlaylist.value)" [disabled]="setPlaylistButton">Seleziona<br><b>Playlist</b></button>
 </div>

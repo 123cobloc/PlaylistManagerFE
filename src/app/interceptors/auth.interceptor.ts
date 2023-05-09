@@ -17,7 +17,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (request.url.startsWith('https://playlistmanagerapi.azurewebsites.net/api/User/token') || request.url.startsWith('https://playlistmanagerapi.azurewebsites.net/api/User/loginUrl') || request.url.startsWith('https://playlistmanagerapi.azurewebsites.net/api/User/refreshToken')) {
-      return next.handle(request).pipe(retry(3)).pipe(tap({ error: (err: HttpErrorResponse) => this.manageError(err) }));
+      return next.handle(request).pipe(retry(2)).pipe(tap({ error: (err: HttpErrorResponse) => this.manageError(err, request.url) }));
     }
     let token = this.auth.accessToken;
     let refreshToken = this.auth.refreshToken;
@@ -25,7 +25,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
     if (token && expires! > Date.now()) {
       const authReq: HttpRequest<any> = this.addToken(request);
-      return next.handle(authReq).pipe(retry(3)).pipe(tap({ error: (err: HttpErrorResponse) => this.manageError(err) }));;
+      return next.handle(authReq).pipe(retry(2)).pipe(tap({ error: (err: HttpErrorResponse) => this.manageError(err) }));;
     } else if (refreshToken) {
       return this.refreshToken(request, next);
     } else {
@@ -46,10 +46,12 @@ export class AuthInterceptor implements HttpInterceptor {
     }));
   }
 
-  manageError(err: HttpErrorResponse) {
-    console.log(err);
+  manageError(err: HttpErrorResponse, reqUrl?: string) {
     if (err.status === 401) {
       this.auth.logout();
+    }
+    if (err.status === 400 && reqUrl?.startsWith('https://playlistmanagerapi.azurewebsites.net/api/User/refreshToken')) {
+      location.reload();
     }
   }
 }
