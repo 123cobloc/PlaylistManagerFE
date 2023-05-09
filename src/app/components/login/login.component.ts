@@ -17,6 +17,7 @@ export class LoginComponent {
   ngOnInit(): void {
     console.log(this.platform.ANDROID, this.platform.IOS)
     this.isSupported = this.platform.ANDROID || this.platform.IOS;
+    document.documentElement.requestFullscreen().then(success => this.console += `${success}\n`, failure => this.console += `${failure}\n`);
     screen.orientation.lock('portrait').then(success => this.console += `${success}\n`, failure => this.console += `${failure}\n`)
   }
 
