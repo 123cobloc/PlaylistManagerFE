@@ -12,6 +12,8 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { CurrentTrackComponent } from './components/current-track/current-track.component';
 import { FirstAccessComponent } from './components/first-access/first-access.component';
 import { FormsModule } from '@angular/forms';
+import { WatchlistComponent } from './components/watchlist/watchlist.component';
+import { WatchlistListComponent } from './components/watchlist-list/watchlist-list.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { FormsModule } from '@angular/forms';
     HomeComponent,
     TokenComponent,
     CurrentTrackComponent,
-    FirstAccessComponent
+    FirstAccessComponent,
+    WatchlistComponent,
+    WatchlistListComponent
   ],
   imports: [
     BrowserModule,

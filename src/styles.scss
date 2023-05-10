@@ -125,6 +125,16 @@ div.my-half {
     text-align: center;
 }
 
+div.my-half.disabled {
+    width: 50%;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #5e5e5e;
+}
+
 span.vr {
     margin-top: 10px;
     width: 2px;

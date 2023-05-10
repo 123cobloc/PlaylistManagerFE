@@ -1,4 +1,5 @@
 import { Component, ElementRef, Input, ViewChild, isDevMode } from '@angular/core';
+import { Router } from '@angular/router';
 import * as bootstrap from 'bootstrap';
 import { Subscription } from 'rxjs';
 import { Album } from 'src/app/models/album.model';
@@ -16,7 +17,7 @@ import { WatchlistService } from 'src/app/services/watchlist.service';
 })
 export class CurrentTrackComponent {
 
-  constructor(private watchlistService: WatchlistService, private playlistService: PlaylistService) { }
+  constructor(private watchlistService: WatchlistService, private playlistService: PlaylistService, private router: Router) { }
 
   @Input() track: Track | undefined;
   @Input() queue: Playlist | undefined;
@@ -47,6 +48,9 @@ export class CurrentTrackComponent {
         return;
     }
   };
+  get isDev(): boolean {
+    return isDevMode();
+  }
 
   ngAfterViewInit(): void {
     this.myToast = new bootstrap.Toast(this.toastEl?.nativeElement);
@@ -148,6 +152,10 @@ export class CurrentTrackComponent {
         this.showToast();
       }
     }));
+  }
+
+  goToWatchlist(): void {
+    this.router.navigate(["/watchlist"]);
   }
 
   ngOnDestroy(): void {

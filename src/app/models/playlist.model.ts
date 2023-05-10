@@ -4,4 +4,5 @@ export interface Playlist {
     image: string | null;
     name: string;
     description: string | null;
+    timestamp: number | null;
 }
