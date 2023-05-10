@@ -18,6 +18,10 @@ export class WatchlistService {
     return this.http.post<void>(`https://playlistmanagerapi.azurewebsites.net/api/Watchlist/add/${itemType}/${itemId}`, null);
   }
 
+  removeFromWatchlist(itemId: string, itemType: number): Observable<void> {
+    return this.http.delete<void>(`https://playlistmanagerapi.azurewebsites.net/api/Watchlist/remove/${itemType}/${itemId}`);
+  }
+
   getWatchlist(itemType: number): Observable<Array<Album | Artist | Playlist | Track>> {
     return this.http.get<Array<Album | Artist | Playlist | Track>>(`https://playlistmanagerapi.azurewebsites.net/api/Watchlist/${itemType}`);
   }

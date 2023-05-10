@@ -30,8 +30,12 @@ export class CurrentTrackComponent {
   }
   checkQueue: boolean = false;
   perfectMatch: boolean = true;
-  myToast: bootstrap.Toast | undefined;
-  checkModal: bootstrap.Modal | undefined;
+  get myToast(): bootstrap.Toast | undefined {
+    return new bootstrap.Toast(this.toastEl?.nativeElement) 
+  };
+  get checkModal(): bootstrap.Modal | undefined {
+    return new bootstrap.Modal(this.modalEl?.nativeElement)
+  };
   toastMessage: string = "";
   subscriptions: Array<Subscription> = [];
   item: Album | Artist | Track | undefined;
@@ -50,11 +54,6 @@ export class CurrentTrackComponent {
   };
   get isDev(): boolean {
     return isDevMode();
-  }
-
-  ngAfterViewInit(): void {
-    this.myToast = new bootstrap.Toast(this.toastEl?.nativeElement);
-    this.checkModal = new bootstrap.Modal(this.modalEl?.nativeElement);
   }
 
   open(item: Album | Artist | Track | undefined) {

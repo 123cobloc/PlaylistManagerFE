@@ -167,11 +167,13 @@ button.my-btn:disabled {
 }
 
 div.loading {
+    top: 0;
+    position: absolute;
     align-items: center;
     display: flex;
     justify-content: center;
     height: 100%;
-    width: 100%;  
+    width: 100%;
 }
 
 div.loading svg {

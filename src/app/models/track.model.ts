@@ -9,4 +9,5 @@ export interface Track {
     album: Album;
     timestamp: number | null;
     isFromQueue: boolean | null;
+    image: string | null;
 }
