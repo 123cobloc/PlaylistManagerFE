@@ -11,7 +11,7 @@ export class WatchlistComponent {
 
   constructor(private router: Router) { }
 
-  itemTypes: any = Object.keys(ItemType).filter(k => typeof ItemType[k as any] === "number");
+  itemTypes: Array<any> = Object.keys(ItemType).filter(k => typeof ItemType[k as any] === "number");
 
   goToHome() {
     this.router.navigate(['/']);

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, interval } from 'rxjs';
 import { Playlist } from 'src/app/models/playlist.model';
 import { PlaylistService } from 'src/app/services/playlist.service';
 
@@ -21,6 +21,7 @@ export class FirstAccessComponent {
   setPlaylistButton: boolean = true;
   myPlaylists: Array<Playlist> | undefined;
   subscriptions: Array<Subscription> = [];
+  getPlaylist: Subscription | undefined;
 
   ngOnInit(): void {
     this.queueEx = this.queueExists;
@@ -28,14 +29,25 @@ export class FirstAccessComponent {
     this.subscriptions.push(this.playlistService.getMyPlaylists().subscribe({
       next: myPlaylists => this.myPlaylists = myPlaylists
     }));
+    if (!this.myPlaylists || this.myPlaylists.length == 0) {
+      this.getPlaylist = interval(5000).subscribe(() => this.playlistService.getMyPlaylists().subscribe({
+        next: myPlaylists => {
+          this.myPlaylists = myPlaylists;
+          if (this.myPlaylists && this.myPlaylists.length > 0) {
+            this.getPlaylist?.unsubscribe();
+          }
+        }
+      }));
+      this.subscriptions.push(this.getPlaylist);
+    }
   }
 
-  checkPlaylist(playlistId: string) {
+  checkPlaylist(playlistId: string): void {
     if (!playlistId) return;
     this.setPlaylistButton = localStorage.getItem('playlistId') == playlistId;
   }
 
-  setPlaylist(playlistId: string) {
+  setPlaylist(playlistId: string): void {
     if (!playlistId) return;
     localStorage.setItem('playlistId', playlistId);
     this.setPlaylistButton = true;
@@ -43,7 +55,7 @@ export class FirstAccessComponent {
     if (this.queueEx && this.playlistEx) location.reload();
   }
 
-  createQueue() {
+  createQueue(): void {
     this.subscriptions.push(this.playlistService.createQueue().subscribe({
       next: () => {
         this.createQueueButton = true;
@@ -51,6 +63,10 @@ export class FirstAccessComponent {
         if (this.queueEx && this.playlistEx) location.reload();
       }
     }));
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
 }

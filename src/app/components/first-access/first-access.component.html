@@ -10,14 +10,19 @@
     <br>
 </div>
 <div id="selectPlaylist" class="my-header" *ngIf="!playlistExists">
-    <h6 class="m-3 my-header">Seleziona la playlist a cui vuoi aggiungere le canzoni, potrai cambiarla in qualsiasi momento dalle impostazioni</h6>
-    <select #selectPlaylist title="selectPlaylist" class="my-select" (change)="checkPlaylist(selectPlaylist.value)">
-        <option value="" selected hidden> Seleziona una playlist</option>
-        <option *ngFor="let playlist of myPlaylists; let i = index" [value]="playlist.id">
-            {{playlist.name}}
-        </option>
-    </select>
-    <br>
-    <br>
-    <button class="btn my-btn rounded-pill m-auto" (click)="setPlaylist(selectPlaylist.value)" [disabled]="setPlaylistButton">Seleziona<br><b>Playlist</b></button>
+    <div *ngIf="myPlaylists && myPlaylists.length > 0">
+        <h6 class="m-3 my-header">Seleziona la playlist a cui vuoi aggiungere le canzoni, potrai cambiarla in qualsiasi momento dalle impostazioni</h6>
+        <select #selectPlaylist title="selectPlaylist" class="my-select" (change)="checkPlaylist(selectPlaylist.value)">
+            <option value="" selected hidden> Seleziona una playlist</option>
+            <option *ngFor="let playlist of myPlaylists; let i = index" [value]="playlist.id">
+                {{playlist.name}}
+            </option>
+        </select>
+        <br>
+        <br>
+        <button type="button" class="btn my-btn rounded-pill m-auto" (click)="setPlaylist(selectPlaylist.value)" [disabled]="setPlaylistButton">Seleziona<br><b>Playlist</b></button>
+    </div>
+    <div *ngIf="!myPlaylists || myPlaylists.length == 0">
+        Sembra che tu non abbia ancora creato nessuna playlist. Per poter utilizzare il servizio creane una dal tuo profilo e torna qui per selezionarla.
+    </div>
 </div>

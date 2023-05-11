@@ -6,6 +6,7 @@ import { User } from 'src/app/models/user.model';
 import { PlayerService } from 'src/app/services/player.service';
 import { PlaylistService } from 'src/app/services/playlist.service';
 import { UserService } from 'src/app/services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -63,10 +64,6 @@ export class HomeComponent {
       if (queue?.id != playlist?.id) this.playlist = playlist;
       this.loading = false;
     });
-
-    this.subscriptions.push(interval(5000).subscribe(() => this.playerService.getCurrentTrack().subscribe({
-      next: track => this.track = track
-    })));
   }
 
   ngOnDestroy(): void {

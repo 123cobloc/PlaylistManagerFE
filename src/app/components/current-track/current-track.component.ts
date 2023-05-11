@@ -1,12 +1,13 @@
 import { Component, ElementRef, Input, ViewChild, isDevMode } from '@angular/core';
 import { Router } from '@angular/router';
 import * as bootstrap from 'bootstrap';
-import { Subscription } from 'rxjs';
+import { Subscription, interval } from 'rxjs';
 import { Album } from 'src/app/models/album.model';
 import { Artist } from 'src/app/models/artist.model';
 import { ItemType } from 'src/app/models/item-type.model';
 import { Playlist } from 'src/app/models/playlist.model';
 import { Track } from 'src/app/models/track.model';
+import { PlayerService } from 'src/app/services/player.service';
 import { PlaylistService } from 'src/app/services/playlist.service';
 import { WatchlistService } from 'src/app/services/watchlist.service';
 
@@ -17,7 +18,7 @@ import { WatchlistService } from 'src/app/services/watchlist.service';
 })
 export class CurrentTrackComponent {
 
-  constructor(private watchlistService: WatchlistService, private playlistService: PlaylistService, private router: Router) { }
+  constructor(private playerService: PlayerService,private watchlistService: WatchlistService, private playlistService: PlaylistService, private router: Router) { }
 
   @Input() track: Track | undefined;
   @Input() queue: Playlist | undefined;
@@ -56,6 +57,12 @@ export class CurrentTrackComponent {
     return isDevMode();
   }
 
+  ngOnInit(): void {
+    this.subscriptions.push(interval(5000).subscribe(() => this.playerService.getCurrentTrack().subscribe({
+      next: track => this.track = track
+    })));
+  }
+
   open(item: Album | Artist | Track | undefined) {
     if (!item) return;
     this.item = item;
@@ -74,11 +81,11 @@ export class CurrentTrackComponent {
     if (!this.item) return;
     this.subscriptions.push(this.watchlistService.addToWatchlist(this.item.id, this.itemType!).subscribe({
       next: () => {
-        this.toastMessage = "Added to watchlist";
+        this.toastMessage = "Aggiunto alla watchlist";
         this.showToast();
       },
       error: (err) => {
-        this.toastMessage = err.status === 409 ? "Already in watchlist" : "Error adding to watchlist";
+        this.toastMessage = err.status === 409 ? "Già nella watchlist" : "Errore nell'aggiunta alla watchlist";
         this.showToast();
       }
     }));
@@ -87,7 +94,7 @@ export class CurrentTrackComponent {
   addToPlaylist(isQueue: boolean): void {
     this.checkQueue = isQueue;
     if (!this.track || !this.queue || !this.playlistToCheck) {
-      this.toastMessage = `Error adding to ${this.playlistToCheck?.name ?? "playlist"}`;
+      this.toastMessage = `Errore nell'aggiunta alla playlist`;
       this.showToast();
       return;
     }
@@ -108,7 +115,7 @@ export class CurrentTrackComponent {
         }
       },
       error: () => {
-        this.toastMessage = `Error adding to ${this.playlistToCheck?.name ?? "playlist"}`;
+        this.toastMessage = `Errore nell'aggiunta alla playlist`;
         this.showToast();
         return;
       }
@@ -119,12 +126,12 @@ export class CurrentTrackComponent {
     if (!this.track || !this.queue || !this.playlistToCheck) return;
     this.subscriptions.push(this.playlistService.addToPlaylist(this.track.id, this.playlistToCheck.id).subscribe({
       next: () => {
-        this.toastMessage = `Added to ${this.playlistToCheck!.name}`;
+        this.toastMessage = `Aggiunta a ${this.playlistToCheck!.name}`;
         this.showToast();
         if (this.queue!.id === this.playlistToCheck!.id) this.track!.isFromQueue = true;
       },
       error: () => {
-        this.toastMessage = `Error adding to ${this.playlistToCheck!.name}`;
+        this.toastMessage = `Errore nell'aggiunta a ${this.playlistToCheck!.name}`;
         this.showToast();
       }
     }));
@@ -136,18 +143,18 @@ export class CurrentTrackComponent {
 
   removeFromQueue(): void {
     if (!this.track || !this.queue) {
-      this.toastMessage = `Error removing from Queue - PM`;
+      this.toastMessage = `Errore nella rimozione da Queue - PM`;
       this.showToast();
       return;
     }
     this.subscriptions.push(this.playlistService.removeFromPlaylist(this.track.id, this.queue.id).subscribe({
       next: () => {
         this.track!.isFromQueue = false;
-        this.toastMessage = `Removed from Queue - PM`;
+        this.toastMessage = `Rimossa da Queue - PM`;
         this.showToast();
       },
       error: () => {
-        this.toastMessage = `Error removing from Queue - PM`;
+        this.toastMessage = `Errore nella rimozione da Queue - PM`;
         this.showToast();
       }
     }));
