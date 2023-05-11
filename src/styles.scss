@@ -83,6 +83,32 @@ div.left-fade {
     z-index: 2;
 }
 
+div.header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+}
+
+div.watchlist {
+    width: 50px;
+    height: 38px;
+}
+
+div.header .content {
+    background-color: #121212;
+}
+
+div.top-fade {
+    width: 100%;
+    height: 20px;
+    background-image: linear-gradient(to top, rgba(18,18,18,0), rgba(18,18,18,1));
+    z-index: 2;
+}
+
+div.list {
+    margin-top: 100px;
+}
+
 .my-header {
     text-align: center;
 }
