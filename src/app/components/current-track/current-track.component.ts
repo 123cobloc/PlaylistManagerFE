@@ -32,7 +32,7 @@ export class CurrentTrackComponent {
   checkQueue: boolean = false;
   perfectMatch: boolean = true;
   get myToast(): bootstrap.Toast | undefined {
-    return new bootstrap.Toast(this.toastEl?.nativeElement) 
+    return new bootstrap.Toast(this.toastEl?.nativeElement)
   };
   get checkModal(): bootstrap.Modal | undefined {
     return new bootstrap.Modal(this.modalEl?.nativeElement)
