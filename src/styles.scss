@@ -179,7 +179,7 @@ button.my-btn {
     transition-duration: 0.25s;
 }
 
-button.my-btn:active {
+button.my-btn.load {
     background-color: #121212;
     color: #ffffff;
     border: 1px solid #ffffff;

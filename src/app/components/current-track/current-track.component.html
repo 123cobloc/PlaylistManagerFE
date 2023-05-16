@@ -66,9 +66,9 @@
         </div>
     </div>
     <div id="buttons" class="d-flex justify-content-evenly mt-3" *ngIf="track">
-        <button class="btn rounded-pill my-btn" *ngIf="track?.isFromQueue" (click)="removeFromQueue()">Rimuovi da<br><b>Queue - PM</b></button>
-        <button class="btn rounded-pill my-btn" *ngIf="!track?.isFromQueue" (click)="addToPlaylist(true)">Aggiungi a<br><b>Queue - PM</b></button>
-        <button class="btn rounded-pill my-btn" (click)="addToPlaylist(false)">Aggiungi a<br><b>{{playlist?.name}}</b></button>
+        <button type="button" class="btn rounded-pill my-btn" [ngClass]="{'load' : removeFromQueueLoad}" *ngIf="track?.isFromQueue" (click)="removeFromQueue()">Rimuovi da<br><b>Queue - PM</b></button>
+        <button type="button" class="btn rounded-pill my-btn" [ngClass]="{'load' : addToQueueLoad}" *ngIf="!track?.isFromQueue" (click)="addToPlaylist(true)">Aggiungi a<br><b>Queue - PM</b></button>
+        <button type="button" class="btn rounded-pill my-btn" [ngClass]="{'load' : addToPlaylistLoad}" (click)="addToPlaylist(false)">Aggiungi a<br><b>{{playlist?.name}}</b></button>
         <div class="modal fade" #checkModal tabindex="-1" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">

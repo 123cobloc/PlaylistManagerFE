@@ -40,6 +40,9 @@ export class CurrentTrackComponent {
   toastMessage: string = "";
   subscriptions: Array<Subscription> = [];
   item: Album | Artist | Track | undefined;
+  addToQueueLoad: boolean = false;
+  removeFromQueueLoad: boolean = false;
+  addToPlaylistLoad: boolean = false;
   get itemType(): ItemType | undefined {
     if (!this.item) return;
     switch (this.item.url.charAt(28)) {
@@ -93,6 +96,12 @@ export class CurrentTrackComponent {
 
   addToPlaylist(isQueue: boolean): void {
     this.checkQueue = isQueue;
+    if (isQueue) { 
+      this.addToQueueLoad = true;
+      this.removeFromQueueLoad = false;
+    } else {
+      this.addToPlaylistLoad = true;
+    }
     if (!this.track || !this.queue || !this.playlistToCheck) {
       this.toastMessage = `Errore nell'aggiunta alla playlist`;
       this.showToast();
@@ -118,6 +127,10 @@ export class CurrentTrackComponent {
         this.toastMessage = `Errore nell'aggiunta alla playlist`;
         this.showToast();
         return;
+      },
+      complete: () => {
+        this.addToPlaylistLoad = false;
+        this.addToQueueLoad = false;
       }
     }));
   }
@@ -142,6 +155,8 @@ export class CurrentTrackComponent {
   }
 
   removeFromQueue(): void {
+    this.removeFromQueueLoad = true;
+    this.addToQueueLoad = false;
     if (!this.track || !this.queue) {
       this.toastMessage = `Errore nella rimozione da Queue - PM`;
       this.showToast();
