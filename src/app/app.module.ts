@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { WatchlistComponent } from './components/watchlist/watchlist.component';
 import { WatchlistListComponent } from './components/watchlist-list/watchlist-list.component';
 import { UnauthorizedComponent } from './components/unauthorized/unauthorized.component';
+import { SettingsComponent } from './components/settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { UnauthorizedComponent } from './components/unauthorized/unauthorized.co
     FirstAccessComponent,
     WatchlistComponent,
     WatchlistListComponent,
-    UnauthorizedComponent
+    UnauthorizedComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,

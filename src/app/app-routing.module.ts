@@ -9,6 +9,7 @@ import { LoginGuard } from './guards/login.guard';
 import { WatchlistComponent } from './components/watchlist/watchlist.component';
 import { WatchlistListComponent } from './components/watchlist-list/watchlist-list.component';
 import { UnauthorizedComponent } from './components/unauthorized/unauthorized.component';
+import { SettingsComponent } from './components/settings/settings.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'watchlist', component: WatchlistComponent, canActivate: [AuthGuard] },
   { path: 'unauthorized', component: UnauthorizedComponent, canActivate: [AuthGuard] },
   { path: 'watchlist/list', component: WatchlistListComponent, canActivate: [AuthGuard]},
+  { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard]},
   { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
   { path: 'callback', component: TokenComponent, canActivate: [TokenGuard] }
 ];

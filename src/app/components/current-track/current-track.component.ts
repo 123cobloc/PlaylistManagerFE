@@ -164,6 +164,10 @@ export class CurrentTrackComponent {
     this.router.navigate(["/watchlist"]);
   }
 
+  goToSettings(): void {
+    this.router.navigate(["/settings"]);
+  }
+
   ngOnDestroy(): void {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
